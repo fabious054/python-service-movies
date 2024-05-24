@@ -1,14 +1,8 @@
 {
-    "version": 2,
-    "functions": {
-      "api": {
-        "runtime": "python3.12.2"
-      }
-    },
-    "routes": [
-      { "src": "/(.*)", "dest": "/app.py" }
-    ],
-    "builds": [
-      { "src": "requirements.txt", "use": "@vercel/python" }
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/api/app"
+        }
     ]
-  }
+}
