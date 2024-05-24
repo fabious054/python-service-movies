@@ -9,6 +9,10 @@ bearer = os.getenv('HEADER_AUTORIZATION')
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
+def index():
+    return "THIS API GONNA CHANGE MY LIFE"
+
+@app.route('/movies', methods=['GET'])
 def home():
     movies = []
 
