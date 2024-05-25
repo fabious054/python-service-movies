@@ -2,11 +2,10 @@ from flask import Flask, render_template
 import requests
 import os
 from dotenv import load_dotenv
-# from dbConnection import DbConnection
+from conection import DatabaseConnector
+from dbConnection import DbConnection
 import time
 from datetime import datetime, timedelta
-import mysql.connector as mysql 
-from mysql.connector import Error
 
 load_dotenv()
 host = os.getenv('DB_HOST')
@@ -142,100 +141,6 @@ def genres():
 
     return retornar
   
-
-
-
-
-class DatabaseConnector:
-    def __init__(self, url, bearer):
-        self.url = url
-        self.bearer = bearer
-    
-    def connect(self):
-        payload = {}
-        headers = {
-            'Authorization': self.bearer
-        }
-        response = requests.get(self.url, headers=headers, data=payload)
-        response.raise_for_status()  # Check if the request was successful
-        return response.json()
-    
-
-class DbConnection:
-    def __init__(self, host, database, user, password):
-        self.host = host
-        self.database = database
-        self.user = user
-        self.password = password
-        self.connection = None
-
-    def connect(self):
-        try:
-            self.connection = mysql.connect(
-                host=self.host,
-                database=self.database,
-                user=self.user,
-                password=self.password
-            )
-            if self.connection.is_connected():
-                print(f"Conectado ao banco de dados {self.database} em {self.host}")
-
-        except Error as e:
-            print(f"Erro ao conectar ao MySQL: {e}")
-
-
-    def close(self):
-        if self.connection is not None and self.connection.is_connected():
-            self.connection.close()
-            print("Conexão ao MySQL foi encerrada")
-
-
-    def execute(self, query):
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(query)
-        print(f"Query executada com sucesso: {query}")
-        return cursor.fetchall()
-    
-    def insert(self, query):
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(query)
-        self.connection.commit()
-        return cursor.lastrowid
-    
-    def update(self, query):
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(query)
-        self.connection.commit()
-        return cursor.rowcount
-    
-    def delete(self, query):
-
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(query)
-        self.connection.commit()
-        return cursor.rowcount
-    
-    def truncate(self, table):
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(f"TRUNCATE TABLE {table}")
-        self.connection.commit()
-        return cursor.rowcount
-    
-    def drop(self, table):
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(f"DROP TABLE {table}")
-        self.connection.commit()
-        return cursor.rowcount
-    
-    def create(self, query):
-
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(query)
-        self.connection.commit()
-        return cursor.rowcount
-    
-    
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
