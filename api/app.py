@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import requests
 import os
 from dotenv import load_dotenv
@@ -142,7 +142,7 @@ def genres():
     return retornar
   
 
-  
+
 
 if __name__ == '__main__':
     app.run(debug=True)
