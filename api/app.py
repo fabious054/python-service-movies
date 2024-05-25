@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 import requests
 import os
 from dotenv import load_dotenv
-from conection import DatabaseConnector
+from connection import DatabaseConnector
 from dbConnection import DbConnection
 import time
 from datetime import datetime, timedelta
