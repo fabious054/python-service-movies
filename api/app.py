@@ -142,5 +142,7 @@ def genres():
     return retornar
   
 
+  
+
 if __name__ == '__main__':
     app.run(debug=True)
