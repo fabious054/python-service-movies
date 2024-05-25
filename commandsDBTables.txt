@@ -1,0 +1,7 @@
+
+-- CREATE GENRES TABLE IN DB -- 
+CREATE TABLE `app_genres` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id_genre` int NOT NULL,
+  `title` varchar(40) NOT NULL
+) COLLATE 'utf8mb3_general_ci';

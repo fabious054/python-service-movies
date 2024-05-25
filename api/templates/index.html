@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JUSTMOVIEIT</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to JUSTMOVIEIT API service</h1>
+        <p>This Python API service, created by <a href="https://www.linkedin.com/in/fabio-abreu-544a78221/" target="_blank" rel="noopener noreferrer">Fabio Abreu</a>, will be instrumental in building my own movie community. By querying the TMDB database and importing the data into my own repository, I'll establish a platform where I can exert precise control over the movies, adapting them to the specific needs and ideas of my community.</p>
+    </header>
+    <nav>
+        <h2>Routes</h2>
+        <ul>
+            <li>
+                <h5>/movies</h5>
+                <p>This route will retrieve all movies from TMDB within the range from 2000 to 2030. The search will provide the IDs for each year divided into monthly queries to avoid overloading. These IDs will be checked against my database, and if they don't exist, I will add them.</p>
+            </li>
+            <li>
+                <h5>/genres</h5>
+                <p>This route will fetch the list of all existing genres in the database, which will be linked to the movies. The query verifies if the genre exists in my database, and if it doesn't, the genre will be added.</p>
+            </li>
+        </ul>
+    </nav>
+    <section>
+        <h2>Config</h2>
+        <ul>
+            <li>For the routes to function properly, adjustments to the project's environment variables are necessary. So, running the project without making these adjustments beforehand won't be effective.</li>
+            <li>In the future, I plan to make it available for anyone interested to export the data to their own databases.</li>
+        </ul>
+        
+    </section>
+</body>
+</html>
