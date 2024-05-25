@@ -13,6 +13,7 @@ db_name = os.getenv('DB_NAME')
 db_user = os.getenv('DB_USER')
 db_pass = os.getenv('DB_PASS')
 
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
