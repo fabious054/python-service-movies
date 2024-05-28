@@ -219,7 +219,68 @@ def genres():
     return retornar
   
 
+@app.route('/movies-info', methods=['GET'])
+def movies_info():
+    database = DbConnection(host, db_name , db_user, db_pass)
+    database.connect()
+    consult = f"SELECT * FROM app_tmdb_ids"
+    result = database.execute(consult)
+    database.close()
 
+    insertItens = []
+    noInsertItens = []
+
+    return jsonify(result)
+
+
+@app.route('/providers', methods=['GET'])
+def providers():
+    database = DbConnection(host, db_name , db_user, db_pass)
+    database.connect()
+    query = """CREATE TABLE IF NOT EXISTS app_providers (
+        id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        id_provider_tmdb int NOT NULL,
+        name varchar(100) NOT NULL,
+        image varchar(255) NOT NULL
+    ) COLLATE 'utf8mb3_general_ci';"""
+    database.execute(query)
+    database.close()
+
+    insertItens = []
+    noInsertItens = []
+
+    url = "https://api.themoviedb.org/3/watch/providers/movie?language=pt-br"
+    connection = DatabaseConnector(url, os.getenv('HEADER_AUTORIZATION'))
+    response = connection.connect()
+    database = DbConnection(host, db_name, db_user, db_pass)
+    database.connect()
+
+    for provider in response['results']:
+        print(provider['provider_name'])
+        print(provider['provider_id'])
+        print(provider['logo_path'])
+        logo_path = "https://image.tmdb.org/t/p/w500" + provider['logo_path']
+        print('_' * 30)
+        consult = f"SELECT * FROM app_providers WHERE id_provider_tmdb = {provider['provider_id']}"
+        result = database.execute(consult)
+        if len(result) > 0:
+            noInsertItens.append('Nao foi inserido pois ja existe no banco de dados o provider informado. ID: ' + str(provider['provider_id']) + ' - ' + provider['provider_name'] + '.')
+            continue
+
+        query = f"INSERT INTO app_providers (id_provider_tmdb, name, image) VALUES ({provider['provider_id']}, '{provider['provider_name']}', '{logo_path}')"
+        database.insert(query)
+        insertItens.append(provider)
+
+    database.close()
+
+    retornar = {
+        'insertItens': insertItens,
+        'noInsertItens': noInsertItens
+    }
+    
+    return retornar
+
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
